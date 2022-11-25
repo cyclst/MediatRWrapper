@@ -11,14 +11,21 @@ namespace MediatRWrapper.Infrastructure.MediatR.DomainEvents
 
         public MediatRDomainEventHandler(IEnumerable<IDomainEventHandler<TDomainEvent>> handlers)
         {
-            _handlers = handlers.ToList() ?? throw new ArgumentNullException(nameof(handlers));
+            // Optionally, throw an exception if you want to ensure all your domain events have handlers
+            _handlers = handlers?.ToList() ?? throw new ArgumentNullException(nameof(handlers));
+            if (_handlers.Count == 0)
+                throw new ApplicationException("No event handler registered");
+
+            // Or not
+            //_handlers = handlers?.ToList() ?? new List<IDomainEventHandler<TDomainEvent>>();
         }
 
         public async Task Handle(MediatRDomainEvent<TDomainEvent> request, CancellationToken cancellationToken)
         {
-            var handler = _handlers.First();
-
-            await handler.Handle(request.Event, cancellationToken);
+            foreach (var handler in _handlers)
+            {
+                await handler.Handle(request.Event, cancellationToken);
+            }
         }
     }
 }
