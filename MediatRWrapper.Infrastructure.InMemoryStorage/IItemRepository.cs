@@ -1,6 +1,6 @@
 ﻿using MediatRWrapper.Domain;
 
-namespace MediatRWrapper.Infrastructure.FakeStorage
+namespace MediatRWrapper.Infrastructure.InMemoryStorage
 {
     public interface IItemRepository
     {

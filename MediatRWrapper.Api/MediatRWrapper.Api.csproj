@@ -17,9 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MediatRWrapper.Application\MediatRWrapper.Application.csproj" />
-    <ProjectReference Include="..\MediatRWrapper.FakeStoreQueries\MediatRWrapper.Queries.FakeStorage.csproj" />
-    <ProjectReference Include="..\MediatRWrapper.Infrastructure.InMemoryStorage\MediatRWrapper.Infrastructure.FakeStorage.csproj" />
-    <ProjectReference Include="..\MediatRWrapper.Infrastructure.MediatR\MediatRWrapper.Infrastructure.MediatR.csproj" />
+    <ProjectReference Include="..\MediatRWrapper.Infrastructure.InMemoryStorage\MediatRWrapper.Infrastructure.InMemoryStorage.csproj" />
   </ItemGroup>
 
 </Project>

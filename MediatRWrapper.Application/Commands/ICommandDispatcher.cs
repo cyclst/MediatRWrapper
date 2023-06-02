@@ -2,5 +2,7 @@
 
 public interface ICommandDispatcher
 {
-    Task<bool> Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken) where TCommand : ICommand;
+    public Task<CommandResult> Dispatch(ICommand command, CancellationToken cancellationToken);
+
+    public Task<CommandResult<TResult>> Dispatch<TResult>(ICommand<TResult> command, CancellationToken cancellationToken);
 }

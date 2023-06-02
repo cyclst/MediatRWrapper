@@ -18,5 +18,12 @@ namespace MediatRWrapper.Domain
 
             PublishDomainEvent(new ItemCreatedDomainEvent(Id, Name));
         }
+
+        public void UpdateName(string name)
+        {
+            Name = name;
+
+            PublishDomainEvent(new ItemNameUpdatedDomainEvent(Id, Name));
+        }
     }
 }

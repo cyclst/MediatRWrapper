@@ -13,5 +13,9 @@ public class AutofacModule : Module
         builder.RegisterAssemblyTypes(ThisAssembly)
             .Where(t => t.Name.EndsWith("DomainEventHandler"))
             .AsImplementedInterfaces();
+
+        builder.RegisterAssemblyTypes(ThisAssembly)
+            .Where(t => t.Name.EndsWith("QueryHandler"))
+            .AsImplementedInterfaces();
     }
 }

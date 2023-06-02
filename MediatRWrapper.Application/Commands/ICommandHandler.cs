@@ -1,6 +1,11 @@
-﻿namespace MediatRWrapper.Application.Commands;
+﻿using MediatR;
 
-public interface ICommandHandler<TCommand> where TCommand : ICommand
+namespace MediatRWrapper.Application.Commands;
+
+public interface ICommandHandler<TCommand, TResponse> : IRequestHandler<TCommand, CommandResult<TResponse>> where TCommand : ICommand<TResponse>
 {
-    Task<bool> Handle(TCommand command, CancellationToken cancellation);
+}
+
+public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, CommandResult> where TCommand : ICommand
+{
 }

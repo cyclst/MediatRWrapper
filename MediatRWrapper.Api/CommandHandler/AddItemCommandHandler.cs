@@ -2,12 +2,11 @@
 using MediatRWrapper.Application.Commands;
 using MediatRWrapper.Application.DomainEvents;
 using MediatRWrapper.Domain;
-using MediatRWrapper.Domain.DomainEvents;
-using MediatRWrapper.Infrastructure.FakeStorage;
+using MediatRWrapper.Infrastructure.InMemoryStorage;
 
 namespace MediatRWrapper.Api.CommandHandler
 {
-    public class AddItemCommandHandler : ICommandHandler<AddItemCommand>
+    public class AddItemCommandHandler : ICommandHandler<AddItemCommand, Guid>
     {
         private readonly IDomainEventPublisher _domainEventPublisher;
         private readonly IItemRepository _itemRepository;
@@ -22,13 +21,15 @@ namespace MediatRWrapper.Api.CommandHandler
             _logger = logger;
         }
 
-        public async Task<bool> Handle(AddItemCommand command, CancellationToken cancellationToken)
+        public async Task<CommandResult<Guid>> Handle(AddItemCommand command, CancellationToken cancellationToken)
         {
             try
             {
                 _logger.LogInformation("AddItemCommand received for {ItemName}", command.Name);
 
-                var item = new Item(command.Id, command.Name);
+                var id = Guid.NewGuid();
+
+                var item = new Item(id, command.Name);
 
                 _itemRepository.Save(item);
 
@@ -37,13 +38,13 @@ namespace MediatRWrapper.Api.CommandHandler
                     await _domainEventPublisher.Publish(domainEvent, cancellationToken);
                 }
 
-                return true;
+                return CommandResult.Ok(id);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
 
-                return false;
+                return CommandResult<Guid>.Error(ex.Message);
             }
         }
     }
